@@ -1,0 +1,15 @@
+db:
+  type: postgresql
+  connector: asyncpg
+  host: localhost
+  port: 5432
+  login: postgres
+  password: postgres
+  name: postgres
+
+storage:
+  type: memory
+  redis:
+    url: http://localhost
+    port: 6379
+    db: 1
