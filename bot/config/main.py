@@ -22,7 +22,8 @@ def load_config(paths: Paths) -> Config:
         paths=paths,
         db=load_db_config(config_dct["db"]),
         bot=load_bot_config(),
-        storage=load_storage(config_dct["storage"])
+        storage=load_storage(config_dct["storage"]),
+	    owner=config_dct["owner"]
     )
 
 

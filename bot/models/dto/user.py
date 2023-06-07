@@ -1,5 +1,7 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
+from datetime import datetime
 
 from aiogram import types as tg
 
@@ -13,6 +15,8 @@ class User:
     last_name: str | None = None
     is_bot: bool | None = None
     is_admin: bool | None = None
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
 
     @classmethod
     def from_aiogram(cls, user: tg.User) -> User:

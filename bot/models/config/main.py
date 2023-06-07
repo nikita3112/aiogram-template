@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+from typing import Union
+
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -11,6 +14,7 @@ class Config:
     db: DBConfig
     bot: BotConfig
     storage: StorageConfig
+    owner: Union[str, int]
 
     @property
     def app_dir(self) -> Path:

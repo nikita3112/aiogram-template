@@ -18,6 +18,7 @@ meta = MetaData(naming_convention=convention)
 class Base(DeclarativeBase):
     metadata = meta
 
+
 def create_pool(db_config: DBConfig) -> async_sessionmaker[AsyncSession]:
     engine = create_async_engine(url=make_url(db_config.uri))
     pool: async_sessionmaker[AsyncSession] = async_sessionmaker(

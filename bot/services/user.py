@@ -6,3 +6,8 @@ async def create_or_update_user(user: dto.User, user_dao: UserDAO) -> dto.User:
     saved_user = await user_dao.create_or_update_user(user)
     await user_dao.commit()
     return saved_user
+
+async def update_user(user: dto.User, user_dao: UserDAO) -> dto.User:
+    updated_user = await user_dao.update_user(user)
+    await user_dao.commit()
+    return updated_user

@@ -3,11 +3,11 @@ from typing import Callable, Any, Awaitable
 
 from aiogram.types import TelegramObject
 
-from bot.models.config.main import BotConfig
+from bot.models.config.main import Config
 
 
 class ConfigMiddleware(BaseMiddleware):
-    def __init__(self, config: BotConfig):
+    def __init__(self, config: Config):
         self.config = config
 
     async def __call__(

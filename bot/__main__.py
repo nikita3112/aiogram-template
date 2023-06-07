@@ -22,7 +22,7 @@ def main():
     config = load_config(paths)
 
     dp = Dispatcher(storage=config.storage.create_storage())
-    setup_middlewares(dp, create_pool(config.db), config.bot)
+    setup_middlewares(dp, create_pool(config.db), config)
     setup_handlers(dp, config.bot)
     bot = Bot(
         token=config.bot.token,
