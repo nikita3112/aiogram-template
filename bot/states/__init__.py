@@ -1,1 +1,1 @@
-from .admin import AddNewAdminState
+from .admin import AddNewAdminState, DeleteAdminState

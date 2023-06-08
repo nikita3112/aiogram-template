@@ -29,23 +29,14 @@ class UserDAO(BaseDAO[User]):
         )
         return result.scalar_one().to_dto()
     
-    async def update_user(self, user: dto.User) -> dto.User:
-        kwargs = dict(
-            tg_id=user.tg_id,
-            first_name=user.first_name,
-            last_name=user.last_name,
-            username=user.username,
-            is_bot=user.is_bot,
-            is_admin=user.is_admin,
-            updated_at=datetime.now()
-        )
-
+    async def update_admin(self, user: dto.User, is_admin: bool) -> dto.User:
         updated_user = await self.session.execute(
             update(User)
             .where(User.tg_id == user.tg_id)
-            .values(**kwargs)
+            .values(is_admin=is_admin)
             .returning(User)
         )
+        await self.commit()
         return updated_user.scalar_one().to_dto()
 
     async def create_or_update_user(self, user: dto.User) -> dto.User:
@@ -65,4 +56,5 @@ class UserDAO(BaseDAO[User]):
             )
             .returning(User)
         )
+        await self.commit()
         return saved_user.scalar_one().to_dto()
