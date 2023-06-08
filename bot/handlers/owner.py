@@ -65,6 +65,26 @@ async def delete_admin_callback(query: CallbackQuery, state: FSMContext):
         reply_markup=get_cancel_keyboard()
     )
 
+@router.message(DeleteAdminState.enter_user_id)
+async def add_admin(message: Message, dao: HolderDao, user: dto.User, state: FSMContext):
+    try:
+        user_id = int(message.text)
+    except ValueError:
+        return await message.answer('Некорректный ID')
+    
+    try:
+        user = await dao.user.get_by_tg_id(user_id)
+    except NoResultFound:
+        return await message.answer('Пользователь с таким ID не существует')
+    
+    if not user.is_admin:
+        await state.clear()
+        return await message.answer('Пользователь не является админом')
+    
+    user = await dao.user.update_admin(user, False)
+    await state.clear()
+    return await message.answer('Админ успешно удален!')
+
 def setup_owner(dp: Dispatcher):
     router.message.filter(OwnerFilter())
     router.callback_query.filter(OwnerCallbackFilter())
