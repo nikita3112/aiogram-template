@@ -23,13 +23,13 @@ class User(Base):
 
     def __repr__(self):
         rez = (
-            f"<User "
-            f"ID={self.tg_id} "
-            f"name={self.first_name} {self.last_name} "
+            f'<User '
+            f'ID={self.tg_id} '
+            f'name={self.first_name} {self.last_name} '
         )
         if self.username:
-            rez += f"username=@{self.username}"
-        return rez + ">"
+            rez += f'username=@{self.username}'
+        return rez + '>'
 
     def to_dto(self) -> dto.User:
         return dto.User(

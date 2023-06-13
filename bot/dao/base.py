@@ -16,7 +16,7 @@ class BaseDAO(Generic[Model]):
 
     async def get_all(self) -> List[Model]:
         result = await self.session.execute(select(self.model))
-        return result.all()
+        return result.scalars().all()
 
     async def get_by_id(self, id_: int) -> Model:
         result = await self.session.execute(
@@ -31,6 +31,7 @@ class BaseDAO(Generic[Model]):
         await self.session.execute(
             delete(self.model)
         )
+        await self.commit()
 
     async def count(self):
         result = await self.session.execute(

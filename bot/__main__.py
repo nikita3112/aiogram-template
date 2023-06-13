@@ -21,13 +21,14 @@ def main():
     setup_logging(paths)
     config = load_config(paths)
 
-    dp = Dispatcher(storage=config.storage.create_storage())
-    setup_middlewares(dp, create_pool(config.db), config)
-    setup_handlers(dp, config.bot)
     bot = Bot(
         token=config.bot.token,
         parse_mode="HTML"
     )
+
+    dp = Dispatcher(storage=config.storage.create_storage(), bot=bot)
+    setup_middlewares(dp, create_pool(config.db), config)
+    setup_handlers(dp, config.bot)
 
     logger.info("started")
     try:
