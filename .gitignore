@@ -149,3 +149,5 @@ dmypy.json
 
 /temp/
 /config/
+
+.DS_Store
