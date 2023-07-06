@@ -11,11 +11,13 @@ from bot.handlers import setup_handlers
 from bot.middlewares import setup_middlewares
 from bot.models.config.main import Paths
 from bot.models.db import create_pool
+from bot.schedulers.base import setup_scheduler
+
 
 logger = logging.getLogger(__name__)
 
 
-def main():
+async def main():
     paths = get_paths()
 
     setup_logging(paths)
@@ -27,12 +29,18 @@ def main():
     )
 
     dp = Dispatcher(storage=config.storage.create_storage(), bot=bot)
+
+    scheduler = setup_scheduler(bot, config, paths)
+    dp['scheduler'] = scheduler
+
     setup_middlewares(dp, create_pool(config.db), config)
     setup_handlers(dp, config.bot)
 
     logger.info("started")
     try:
-        dp.run_polling(bot)
+        scheduler.start()
+        await bot.delete_webhook(drop_pending_updates=True)
+        await dp.start_polling(bot)
     finally:
         close_all_sessions()
         logger.info("stopped")
